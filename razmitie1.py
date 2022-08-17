@@ -51,6 +51,7 @@ def distort_grid(org_grid, max_shift):
     new_grid[:, :, 1] = np.minimum(y_max, new_grid[:, :, 1])
     return new_grid
 
+
 def grid_to_mesh(src_grid, dst_grid):
     assert(src_grid.shape == dst_grid.shape)
     mesh = []
@@ -68,18 +69,16 @@ def grid_to_mesh(src_grid, dst_grid):
             mesh.append([dst_rect, src_quad])
     return mesh
 
+
 def pic_ruining():
 
-    with open('photos/amount.txt', 'r') as am:
-        SRC = 'photos/' + str(int(am.readlines()[-1])) + '.jpg'
-    im = Image.open(SRC)
+    import savings
+
+    im = Image.open(savings.ruin_save())
 
     dst_grid = griddify(shape_to_rect(im.size), 4, 4)
     src_grid = distort_grid(dst_grid, 30)
     mesh = grid_to_mesh(src_grid, dst_grid)
     im = im.transform(im.size, Image.MESH, mesh)
 
-    with open('photos/amount.txt', 'r') as am:
-        SRCresult = 'photos/' + 'result' + str(int(am.readlines()[-1])) + '.jpg'
-
-    im.save(SRCresult)
+    im.save(savings.ruin_send())

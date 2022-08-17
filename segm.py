@@ -1,11 +1,10 @@
 import torch
+from PIL import Image
+import savings
 
-model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True)
+def pic_segment():
 
-print(model)
-# imgs = ['photo.jpg']
-
-# results = model(imgs)
-
-# results.print()
-# results.show()
+    model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
+    im = Image.open(savings.segm_save())
+    results = model(im)
+    results.save(savings.ruin_send())
